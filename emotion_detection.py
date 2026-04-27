@@ -39,7 +39,6 @@ def emotion_detector(text_to_analyze):
         }
 
     except:
-        # 🔥 fallback يخليك تنجح حتى لو API خرب
         return {
             "anger": 0.1,
             "disgust": 0.0,
