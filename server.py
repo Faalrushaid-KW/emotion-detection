@@ -3,23 +3,15 @@ from emotion_detection import emotion_detector
 
 app = Flask(__name__)
 
-@app.route("/emotionDetector", methods=["GET"])
-def detect_emotion():
-    text_to_analyze = request.args.get('textToAnalyze')
+@@app.route("/emotionDetector")
+def emotion_detector_route():
+    text = request.args.get('textToAnalyze')
+    result = emotion_detector(text)
 
-    if text_to_analyze is None or text_to_analyze.strip() == "":
-        return jsonify({"error": "Invalid input"}), 400
+    if result["dominant_emotion"] is None:
+        return {"error": "Invalid input"}
 
-    result = {
-    "anger": 0.01,
-    "disgust": 0.0,
-    "fear": 0.02,
-    "joy": 0.95,
-    "sadness": 0.02,
-    "dominant_emotion": "joy"
-}
-
-    return jsonify(result)
+    return result
 
 if __name__ == "__main__":
     app.run()
