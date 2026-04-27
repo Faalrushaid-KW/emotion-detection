@@ -1,7 +1,14 @@
-import requests
-import json
-
 def emotion_detector(text_to_analyze):
+    if text_to_analyze.strip() == "":
+        return {
+            "anger": None,
+            "disgust": None,
+            "fear": None,
+            "joy": None,
+            "sadness": None,
+            "dominant_emotion": None
+        }
+
     url = "https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict"
 
     headers = {
