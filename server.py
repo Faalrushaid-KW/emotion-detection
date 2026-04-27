@@ -1,22 +1,17 @@
-"""Flask server for the emotion detection application."""
-
-from flask import Flask, request
-from emotion_detection import emotion_detector
+from flask import Flask, request, jsonify
+from EmotionDetection.emotion_detection import emotion_detector
 
 app = Flask(__name__)
 
-
-@app.route("/emotionDetector")
-def emotion_detector_route():
-    """Handle emotion detection requests from query parameters."""
+@app.route("/emotionDetector", methods=["GET"])
+def detect_emotion():
     text_to_analyze = request.args.get("textToAnalyze")
+
+    if text_to_analyze is None or text_to_analyze.strip() == "":
+        return jsonify({"error": "Invalid input! Try again."}), 400
+
     result = emotion_detector(text_to_analyze)
-
-    if result["dominant_emotion"] is None:
-        return {"error": "Invalid input"}
-
-    return result
-
+    return jsonify(result)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
